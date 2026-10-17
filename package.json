@@ -64,14 +64,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/KembecDev/Code-Time-Limiter.git"
+		"url": "git+https://github.com/Kembec/code_time_limiter.git"
 	},
 	"author": "Kembec.com",
 	"license": "AGPL-3.0 license",
 	"bugs": {
-		"url": "https://github.com/KembecDev/Code-Time-Limiter/issues"
+		"url": "https://github.com/Kembec/code_time_limiter/issues"
 	},
-	"homepage": "https://github.com/KembecDev/Code-Time-Limiter#readme",
+	"homepage": "https://github.com/Kembec/code_time_limiter#readme",
 	"devDependencies": {
 		"@kembec/eslint-config": "^1.1.0",
 		"@types/mocha": "^10.0.6",
