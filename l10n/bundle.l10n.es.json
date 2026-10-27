@@ -1,0 +1,19 @@
+{
+	"Code Time Limiter": "Code Time Limiter",
+	"5 more minutes": "5 minutos más",
+	"Change the limit": "Cambiar el límite",
+	"Stop the limit": "Quitar el límite",
+	"Ends at {0} · {1} left": "Termina a las {0} · quedan {1}",
+	"Ends at {0} · in {1}": "Termina a las {0} · en {1}",
+	"That hour does not exist. Use 24-hour time, like 18:30.": "Esa hora no existe. Usa el formato de 24 horas, como 18:30.",
+	"Give it at least one minute.": "Ponle al menos un minuto.",
+	"Up to 24 hours.": "Hasta 24 horas.",
+	"Write a duration (45m, 1h30) or an hour (18:30).": "Escribe una duración (45m, 1h30) o una hora (18:30).",
+	"Stop coding at…": "Dejar de programar a las…",
+	"A duration (45m, 1h30) or an hour (18:30)": "Una duración (45m, 1h30) o una hora (18:30)",
+	"5 minutes left. Wrap up what you are writing.": "Quedan 5 minutos. Cierra lo que estás escribiendo.",
+	"Time's up": "Se acabó el tiempo",
+	"Time's up. Your work is saved where you left it.": "Se acabó el tiempo. Tu trabajo sigue donde lo dejaste.",
+	"Set a time limit": "Poner un límite de tiempo",
+	"Ends at {0}. Click for 5 more minutes, change or stop.": "Termina a las {0}. Haz clic para 5 minutos más, cambiarlo o quitarlo."
+}

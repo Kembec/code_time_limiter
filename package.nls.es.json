@@ -1,0 +1,10 @@
+{
+	"displayName": "Code Time Limiter",
+	"description": "Una cuenta regresiva en la barra de estado que te dice cuándo dejar de programar. Se pone en un paso: 45m, 1h30 o 18:30.",
+	"category": "Code Time Limiter",
+	"command.setLimit": "Poner un límite de tiempo",
+	"command.addFive": "5 minutos más",
+	"command.stop": "Quitar el límite",
+	"command.toggle": "Poner o gestionar el límite de tiempo",
+	"config.enableAtStartup": "Pedir un límite de tiempo al abrir VS Code."
+}
