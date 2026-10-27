@@ -13,7 +13,11 @@ let warned = false;
 
 function activate(ctx) {
 	context = ctx;
-	statusBar = vscode.window.createStatusBarItem("codeTimeLimiter.countdown", vscode.StatusBarAlignment.Left, 100);
+	statusBar = vscode.window.createStatusBarItem(
+		"codeTimeLimiter.countdown",
+		vscode.StatusBarAlignment.Left,
+		100,
+	);
 	statusBar.name = vscode.l10n.t("Code Time Limiter");
 	statusBar.command = "codeTimeLimiter.toggleActivate";
 	ctx.subscriptions.push(
@@ -66,6 +70,7 @@ async function onStatusClick() {
 function describe(result) {
 	if (result.ok) {
 		const left = clock.formatRemaining(clock.remaining(result.endsAt, Date.now()));
+
 		return vscode.l10n.t("Ends at {0} · in {1}", clock.formatClock(result.endsAt), left);
 	}
 	const reasons = {
@@ -74,6 +79,7 @@ function describe(result) {
 		tooLong: vscode.l10n.t("Up to 24 hours."),
 		unknown: vscode.l10n.t("Write a duration (45m, 1h30) or an hour (18:30)."),
 	};
+
 	return reasons[result.reason] ?? "";
 }
 
@@ -88,7 +94,10 @@ async function promptLimit() {
 				return null;
 			}
 			const result = clock.parseLimit(text, Date.now());
-			const severity = result.ok ? vscode.InputBoxValidationSeverity.Info : vscode.InputBoxValidationSeverity.Error;
+			const severity = result.ok
+				? vscode.InputBoxValidationSeverity.Info
+				: vscode.InputBoxValidationSeverity.Error;
+
 			return { message: describe(result), severity };
 		},
 	});
@@ -138,11 +147,15 @@ function tick() {
 	const left = clock.remaining(endsAt, Date.now());
 	if (left === 0) {
 		finish();
+
 		return;
 	}
 	if (!warned && clock.isWarning(left, EXTEND_MS)) {
 		warned = true;
-		vscode.window.setStatusBarMessage(vscode.l10n.t("5 minutes left. Wrap up what you are writing."), 8000);
+		vscode.window.setStatusBarMessage(
+			vscode.l10n.t("5 minutes left. Wrap up what you are writing."),
+			8000,
+		);
 	}
 	render();
 }
@@ -159,6 +172,7 @@ async function finish() {
 	);
 	if (choice === more) {
 		addFive();
+
 		return;
 	}
 	if (!isRunning()) {
@@ -171,11 +185,15 @@ function render() {
 		statusBar.text = "$(watch)";
 		statusBar.tooltip = vscode.l10n.t("Set a time limit");
 		statusBar.backgroundColor = undefined;
+
 		return;
 	}
 	const left = clock.remaining(endsAt, Date.now());
 	statusBar.text = `$(watch) ${clock.formatRemaining(left)}`;
-	statusBar.tooltip = vscode.l10n.t("Ends at {0}. Click for 5 more minutes, change or stop.", clock.formatClock(endsAt));
+	statusBar.tooltip = vscode.l10n.t(
+		"Ends at {0}. Click for 5 more minutes, change or stop.",
+		clock.formatClock(endsAt),
+	);
 	statusBar.backgroundColor = clock.isWarning(left, EXTEND_MS)
 		? new vscode.ThemeColor("statusBarItem.warningBackground")
 		: undefined;

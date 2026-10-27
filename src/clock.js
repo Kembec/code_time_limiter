@@ -19,6 +19,7 @@ function atClock(match, now) {
 	if (end.getTime() <= now) {
 		end.setDate(end.getDate() + 1);
 	}
+
 	return { ok: true, kind: "clock", endsAt: end.getTime() };
 }
 
@@ -29,12 +30,15 @@ function afterDuration(ms, now) {
 	if (ms > MAX_LIMIT) {
 		return { ok: false, reason: "tooLong" };
 	}
+
 	return { ok: true, kind: "duration", endsAt: now + ms };
 }
 
 // Accepts «45m», «45», «1h», «1h30», «1.5h», «90 min» or a 24-hour clock «18:30» (tomorrow if already past).
 function parseLimit(input, now) {
-	const text = String(input ?? "").trim().toLowerCase();
+	const text = String(input ?? "")
+		.trim()
+		.toLowerCase();
 	if (text === "") {
 		return { ok: false, reason: "empty" };
 	}
@@ -46,12 +50,14 @@ function parseLimit(input, now) {
 	if (hm) {
 		const hours = Number(hm[1].replace(",", "."));
 		const minutes = hm[2] ? Number(hm[2]) : 0;
+
 		return afterDuration(Math.round(hours * HOUR + minutes * MINUTE), now);
 	}
 	const m = text.match(MINUTES);
 	if (m) {
 		return afterDuration(Number(m[1]) * MINUTE, now);
 	}
+
 	return { ok: false, reason: "unknown" };
 }
 
@@ -66,12 +72,14 @@ function formatRemaining(ms) {
 	const m = Math.floor((total % 3600) / 60);
 	const s = total % 60;
 	const pad = (n) => String(n).padStart(2, "0");
+
 	return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${m}:${pad(s)}`;
 }
 
 // «18:30» for the end time shown in previews and tooltips.
 function formatClock(epochMs) {
 	const d = new Date(epochMs);
+
 	return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
