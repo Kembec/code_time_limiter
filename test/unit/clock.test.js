@@ -1,6 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const clock = require("../src/clock.js");
+const clock = require("../../src/clock.js");
 
 // 2026-10-27 17:10:00 local time: every case uses this injected instant, never the real clock.
 const NOW = new Date(2026, 9, 27, 17, 10, 0, 0).getTime();
