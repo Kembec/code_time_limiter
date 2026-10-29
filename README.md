@@ -2,7 +2,7 @@
 
 A countdown in the VS Code status bar that tells you when to stop coding. You set it in one step by typing `45m`, `1h30` or `18:30`. When it reaches zero you get one notice with a «5 more minutes» button, and your editors and files stay as they were.
 
-![The limit input with 45m typed and the preview «Ends at 18:30 · in 45:00» under it](images/readme/set-limit.png)
+![The limit input with 45m typed and the preview «Ends at 08:37 · in 45:00» under it](images/readme/set-limit.png)
 
 ![The status bar showing the watch icon and the time left on the limit](images/readme/countdown.png)
 
