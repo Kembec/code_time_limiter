@@ -1,7 +1,7 @@
 {
 	"name": "code-time-limiter",
-	"displayName": "Code Time Limiter",
-	"description": "Code Time Limiter is an extension for Visual Studio Code designed to help manage your coding time effectively.",
+	"displayName": "%displayName%",
+	"description": "%description%",
 	"version": "0.0.2",
 	"publisher": "kembec",
 	"engines": {
@@ -13,45 +13,66 @@
 		"Other"
 	],
 	"keywords": [
-	  "code time",
-	  "code",
-	  "codetime",
-	  "flow",
-	  "focus",
-	  "limite",
-	  "limiter",
-	  "metrics",
-	  "productivity",
-	  "standup",
-	  "time tracker",
-	  "time tracking",
-	  "time",
-	  "timer",
-	  "todo",
-	  "tracker",
-	  "tracking"
+		"code time",
+		"code",
+		"codetime",
+		"flow",
+		"focus",
+		"limite",
+		"limiter",
+		"metrics",
+		"productivity",
+		"standup",
+		"time tracker",
+		"time tracking",
+		"time",
+		"timer",
+		"todo",
+		"tracker",
+		"tracking"
 	],
 	"activationEvents": [
 		"onStartupFinished"
 	],
 	"icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#000000",
+		"theme": "dark"
+	},
+	"l10n": "./l10n",
 	"main": "src/extension.js",
 	"contributes": {
 		"commands": [
 			{
+				"command": "codeTimeLimiter.setLimit",
+				"title": "%command.setLimit%",
+				"category": "%category%",
+				"icon": "$(watch)"
+			},
+			{
+				"command": "codeTimeLimiter.addFive",
+				"title": "%command.addFive%",
+				"category": "%category%"
+			},
+			{
+				"command": "codeTimeLimiter.stop",
+				"title": "%command.stop%",
+				"category": "%category%"
+			},
+			{
 				"command": "codeTimeLimiter.toggleActivate",
-				"title": "Toggle Code Time Limiter Activation",
-				"category": "Code Time Limiter"
+				"title": "%command.toggle%",
+				"category": "%category%"
 			}
 		],
 		"configuration": {
 			"type": "object",
-			"title": "Code Time Limiter",
+			"title": "%category%",
 			"properties": {
 				"codeTimeLimiter.enableAtStartup": {
 					"type": "boolean",
 					"default": false,
-					"description": "Enable Code Time Limiter at VSCode startup."
+					"description": "%config.enableAtStartup%"
 				}
 			}
 		}
@@ -60,6 +81,7 @@
 		"lint": "eslint .",
 		"pretest": "npm run lint",
 		"test": "vscode-test",
+		"test:unit": "node --test test/unit/",
 		"deploy": "vsce publish"
 	},
 	"repository": {
@@ -77,8 +99,8 @@
 		"@types/mocha": "^10.0.6",
 		"@types/node": "18.x",
 		"@types/vscode": "^1.86.0",
-		"@vscode/test-cli": "^0.0.4",
-		"@vscode/test-electron": "^2.3.9",
+		"@vscode/test-cli": "^0.0.15",
+		"@vscode/test-electron": "^3.1.0",
 		"@vscode/vsce": "^2.23.0",
 		"eslint": "^8.56.0",
 		"sinon": "^17.0.1",

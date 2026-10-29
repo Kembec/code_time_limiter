@@ -8,5 +8,6 @@
 		"no-unused-vars": "warn",
 		"constructor-super": "warn",
 		"valid-typeof": "warn"
-	}
+	},
+	"overrides": [{ "files": ["test/integration/**/*.js"], "env": { "mocha": true } }]
 }

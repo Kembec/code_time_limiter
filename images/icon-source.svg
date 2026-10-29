@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Code Time Limiter</title>
+  <desc>Marketplace icon source. Export: images/icon.png at 256 x 256.</desc>
+  <!--
+    Colours: only Personal/_marca/04-sistema/design-tokens.json; each class is named after its token.
+    The head is the brand's trazado, copied verbatim from 01-logo/iconos/kembec-icono-blanco-512.svg:
+    move or scale it only through its transform, never edit the d attribute.
+    Invariants:
+    - The countdown runs clockwise from the crown (12 o'clock, the limit). Elapsed time is a solid
+      stroke; the time left is dots, the brand's pending state.
+    - "Now" (end of the solid arc) sits at 293.2 deg, on the ray from the ring centre through the
+      beak tip, so the crow points at the current moment.
+    - Clearspace: the beak tip is H/4 (H = visible head height) inside the ring's inner edge;
+      head scale = (R - stroke/2) / (enclosing radius 84.02 + 108.5 / 4) = 88 / 111.15.
+  -->
+  <style>
+    .ink { fill: #000000; }
+    .paper { fill: #FFFFFF; }
+    .paper-stroke { fill: none; stroke: #FFFFFF; stroke-width: 20; stroke-linecap: round; }
+  </style>
+  <rect id="field" class="ink" width="256" height="256"/>
+  <g id="countdown">
+    <path id="elapsed" class="paper-stroke" d="M128 40A98 98 0 1 1 37.92 99.39"/>
+    <g id="pending" class="paper">
+      <circle cx="53.82" cy="73.95" r="8"/>
+      <circle cx="74.96" cy="55.59" r="8"/>
+      <circle cx="100.43" cy="43.96" r="8"/>
+    </g>
+    <g id="crown" class="paper">
+      <rect x="118" y="18" width="20" height="16"/>
+      <rect x="102" y="8" width="52" height="16" rx="8"/>
+    </g>
+  </g>
+  <path id="kembec-head" class="paper" transform="translate(128 138) scale(0.7918) translate(-162.37 -106.5)" d="M85.429 73.763C84.6 72.934 88.932 66.09 92.487 62.612C98.086 57.135 106.726 53.495 123.815 49.415C135.305 46.672 139.914 45.059 145.0 42.0C153.812 36.701 158.307 34.947 165.802 33.885999999999996C179.159 31.994 195.112 37.263000000000005 204.322 46.608000000000004C207.971 50.31 211.051 55.392 216.984 67.5C223.486 80.771 225.775 84.438 230.406 89.0C233.476 92.025 235.991 94.843 235.994 95.262C235.997 95.681 234.087 95.718 231.75 95.345L227.5 94.667C239.0 108.0 244.0 125.0 239.0 141.0C224.0 144.0 211.0 140.0 195.0 133.0C176.0 124.0 158.0 128.0 139.0 137.0C149.0 123.0 154.0 109.0 144.136 97.672C145.83 93.583 145.47 86.369 143.415 83.211C139.488 77.17699999999999 134.96 75.273 120.173 73.439C106.682 71.765 96.3 71.634 90.118 73.059C87.708 73.61500000000001 85.598 73.931 85.429 73.763Z"/>
+</svg>
