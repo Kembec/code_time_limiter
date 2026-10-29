@@ -13,7 +13,8 @@
 	"A duration (45m, 1h30) or an hour (18:30)": "Una duración (45m, 1h30) o una hora (18:30)",
 	"5 minutes left. Wrap up what you are writing.": "Quedan 5 minutos. Cierra lo que estás escribiendo.",
 	"Time's up": "Se acabó el tiempo",
-	"Time's up. Your work is saved where you left it.": "Se acabó el tiempo. Tu trabajo sigue donde lo dejaste.",
+	"Time's up. Your work stays where you left it.": "Se acabó el tiempo. Tu trabajo sigue donde lo dejaste.",
 	"Set a time limit": "Poner un límite de tiempo",
-	"Ends at {0}. Click for 5 more minutes, change or stop.": "Termina a las {0}. Haz clic para 5 minutos más, cambiarlo o quitarlo."
+	"Ends at {0}. Click for 5 more minutes, change or stop.": "Termina a las {0}. Haz clic para 5 minutos más, cambiarlo o quitarlo.",
+	"{0} left, ends at {1}": "Quedan {0}, termina a las {1}"
 }

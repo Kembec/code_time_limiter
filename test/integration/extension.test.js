@@ -29,8 +29,10 @@ function fakeContext() {
 		subscriptions: [],
 		globalState: {
 			get: (key, fallback) => (store.has(key) ? store.get(key) : fallback),
-			update: async (key, value) => {
+			update: (key, value) => {
 				store.set(key, value);
+
+				return Promise.resolve();
 			},
 		},
 	};
@@ -74,6 +76,67 @@ suite("Code Time Limiter in VS Code", () => {
 		await wait(2100);
 		assert.notStrictEqual(bar.text, first);
 		assert.match(bar.text, /^\$\(watch\) 4:5\d$/);
+	});
+
+	test("the limit is set in one step from the input box", async () => {
+		let options;
+		sandbox.stub(vscode.window, "showInputBox").callsFake((opts) => {
+			options = opts;
+
+			return Promise.resolve("45m");
+		});
+		await vscode.commands.executeCommand("codeTimeLimiter.setLimit");
+
+		assert.match(bar.text, /^\$\(watch\) 4[45]:\d{2}$/);
+		const preview = options.validateInput("1h30");
+		assert.strictEqual(preview.severity, vscode.InputBoxValidationSeverity.Info);
+		assert.match(preview.message, /\d{2}:\d{2}/);
+		const wrong = options.validateInput("soon");
+		assert.strictEqual(wrong.severity, vscode.InputBoxValidationSeverity.Error);
+		assert.match(bar.accessibilityInformation.label, /^4[45]:\d{2} /);
+	});
+
+	test("«5 more minutes» in the notice starts a new countdown", async () => {
+		sandbox
+			.stub(vscode.window, "showInformationMessage")
+			.callsFake((_message, ...actions) => Promise.resolve(actions[0]));
+		await vscode.commands.executeCommand("codeTimeLimiter.addFive");
+		const realNow = Date.now.bind(Date);
+		sandbox.stub(Date, "now").callsFake(() => realNow() + 6 * 60 * 1000);
+		await wait(1200);
+
+		// Five minutes counted from the moment time ran out, not from the old end.
+		assert.match(bar.text, /^\$\(watch\) (5:00|4:5\d)$/);
+	});
+
+	test("an older notice closing late keeps the current «Time's up»", async () => {
+		const closers = [];
+		sandbox.stub(vscode.window, "showInformationMessage").callsFake(
+			() =>
+				new Promise((resolve) => {
+					closers.push(resolve);
+				}),
+		);
+		const realNow = Date.now.bind(Date);
+		let offset = 0;
+		sandbox.stub(Date, "now").callsFake(() => realNow() + offset);
+
+		await vscode.commands.executeCommand("codeTimeLimiter.addFive");
+		offset = 6 * 60 * 1000;
+		await wait(1200);
+		await vscode.commands.executeCommand("codeTimeLimiter.addFive");
+		offset = 12 * 60 * 1000;
+		await wait(1200);
+		assert.strictEqual(closers.length, 2);
+
+		// VS Code resolves the first, identical notice with undefined when it opens the second.
+		closers[0](undefined);
+		await wait(50);
+		assert.match(bar.text, /^\$\(bell\) /);
+
+		closers[1](undefined);
+		await wait(50);
+		assert.match(bar.text, /^\$\(watch\)$/);
 	});
 
 	test("at zero: one notice and no diagnostics", async () => {

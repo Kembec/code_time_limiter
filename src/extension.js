@@ -10,6 +10,8 @@ let statusBar;
 let ticker;
 let endsAt = 0;
 let warned = false;
+// Which time-out is current: an older notice that closes late must not repaint the status bar.
+let finishRound = 0;
 
 function activate(ctx) {
 	context = ctx;
@@ -162,12 +164,14 @@ function tick() {
 
 // One dismissable notice and nothing else: no diagnostics, no locked editors, no lost work.
 async function finish() {
+	const round = ++finishRound;
 	stop();
 	statusBar.text = `$(bell) ${vscode.l10n.t("Time's up")}`;
+	statusBar.accessibilityInformation = { label: vscode.l10n.t("Time's up") };
 	statusBar.backgroundColor = new vscode.ThemeColor("statusBarItem.warningBackground");
 	const more = vscode.l10n.t("5 more minutes");
 	const choice = await vscode.window.showInformationMessage(
-		vscode.l10n.t("Time's up. Your work is saved where you left it."),
+		vscode.l10n.t("Time's up. Your work stays where you left it."),
 		more,
 	);
 	if (choice === more) {
@@ -175,7 +179,8 @@ async function finish() {
 
 		return;
 	}
-	if (!isRunning()) {
+	// VS Code closes an identical older notice when a new one opens, resolving it with undefined.
+	if (round === finishRound && !isRunning()) {
 		render();
 	}
 }
@@ -184,6 +189,7 @@ function render() {
 	if (!isRunning()) {
 		statusBar.text = "$(watch)";
 		statusBar.tooltip = vscode.l10n.t("Set a time limit");
+		statusBar.accessibilityInformation = { label: vscode.l10n.t("Set a time limit") };
 		statusBar.backgroundColor = undefined;
 
 		return;
@@ -194,6 +200,14 @@ function render() {
 		"Ends at {0}. Click for 5 more minutes, change or stop.",
 		clock.formatClock(endsAt),
 	);
+	// Without a label a screen reader announces the icon name «watch» before the digits.
+	statusBar.accessibilityInformation = {
+		label: vscode.l10n.t(
+			"{0} left, ends at {1}",
+			clock.formatRemaining(left),
+			clock.formatClock(endsAt),
+		),
+	};
 	statusBar.backgroundColor = clock.isWarning(left, EXTEND_MS)
 		? new vscode.ThemeColor("statusBarItem.warningBackground")
 		: undefined;
