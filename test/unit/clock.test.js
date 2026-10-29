@@ -23,6 +23,19 @@ test("durations in hours", () => {
 	assert.equal(clock.parseLimit("1,5h", NOW).endsAt, NOW + 90 * MIN);
 });
 
+test("hour and minute words in Spanish and English", () => {
+	for (const input of ["1 hora", "1 hour", "1 hr"]) {
+		assert.equal(clock.parseLimit(input, NOW).endsAt, NOW + 60 * MIN, input);
+	}
+	for (const input of ["2 horas", "2 hours", "2hrs"]) {
+		assert.equal(clock.parseLimit(input, NOW).endsAt, NOW + 120 * MIN, input);
+	}
+	assert.equal(clock.parseLimit("1 hora 30 minutos", NOW).endsAt, NOW + 90 * MIN);
+	assert.equal(clock.parseLimit("1 minuto", NOW).endsAt, NOW + MIN);
+	assert.equal(clock.parseLimit("1 minute", NOW).endsAt, NOW + MIN);
+	assert.equal(clock.parseLimit("2 horitas", NOW).reason, "unknown");
+});
+
 test("a clock later today ends today", () => {
 	const r = clock.parseLimit("18:30", NOW);
 	assert.equal(r.ok, true);

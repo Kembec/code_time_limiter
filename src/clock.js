@@ -5,8 +5,13 @@ const HOUR = 60 * MINUTE;
 const MAX_LIMIT = 24 * HOUR;
 
 const CLOCK = /^(\d{1,2}):(\d{2})$/;
-const HOURS_MINUTES = /^(\d+(?:[.,]\d+)?)\s*h(?:\s*(\d{1,2})\s*(?:m|min)?)?$/;
-const MINUTES = /^(\d+)\s*(?:m|min|mins|minutes|minutos)?$/;
+// Units in both languages the extension speaks: «1 hora», «2 hours», «30 minutos», «1 minute».
+const HOUR_UNIT = "(?:h|hr|hrs|horas?|hours?)";
+const MINUTE_UNIT = "(?:m|min|mins|minutos?|minutes?)";
+const HOURS_MINUTES = new RegExp(
+	`^(\\d+(?:[.,]\\d+)?)\\s*${HOUR_UNIT}(?:\\s*(\\d{1,2})\\s*${MINUTE_UNIT}?)?$`,
+);
+const MINUTES = new RegExp(`^(\\d+)\\s*${MINUTE_UNIT}?$`);
 
 function atClock(match, now) {
 	const hours = Number(match[1]);
@@ -34,7 +39,7 @@ function afterDuration(ms, now) {
 	return { ok: true, kind: "duration", endsAt: now + ms };
 }
 
-// Accepts «45m», «45», «1h», «1h30», «1.5h», «90 min» or a 24-hour clock «18:30» (tomorrow if already past).
+// Accepts «45m», «45», «1h», «1h30», «1.5h», «90 min», «2 horas» or a 24-hour clock «18:30» (tomorrow if already past).
 function parseLimit(input, now) {
 	const text = String(input ?? "")
 		.trim()
