@@ -1,40 +1,68 @@
-# Code Time Limiter for Visual Studio Code
+# Code Time Limiter
 
-Code Time Limiter is an extension for Visual Studio Code designed to help manage your coding time effectively. It allows you to set a specific time limit for coding, after which it will automatically apply lint errors to all open editors to gently remind you that your designated coding time is over. This tool is perfect for managing time spent on projects, enforcing breaks, or limiting coding time to ensure work-life balance.
+A countdown in the VS Code status bar that tells you when to stop coding. You set it in one step by typing `45m`, `1h30` or `18:30`. When it reaches zero you get one notice with a «5 more minutes» button, and your editors and files stay as they were.
 
-## Features
+![The limit input with 45m typed and the preview «Ends at 18:30 · in 45:00» under it](images/readme/set-limit.png)
 
-- **Set a Time Limit:** Easily select a future time to stop coding directly within VSCode.
-- **Automatic Notifications:** Receive a warning 5 minutes before your coding time ends.
-- **Immediate Feedback:** Once the time limit is reached, all open text documents will display lint errors indicating that coding time is over.
-- **Toggle Activation:** Quickly activate or deactivate the time limit directly from the status bar.
+![The status bar showing the watch icon and the time left on the limit](images/readme/countdown.png)
 
-## How to Use
+![The «Time's up» notice with its «5 more minutes» button, and the status bar reading «Time's up»](images/readme/times-up.png)
 
-1. **Activate the Time Limiter:** Click on the Code Time Limiter status bar item or use the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS) to toggle the time limiter.
-2. **Set Your Time Limit:** Choose the hour and minute you wish to stop coding. A 5-minute warning and final message will alert you when it's time to take a break or stop coding.
-3. **Deactivate:** You can deactivate the time limiter at any time through the status bar item or command palette.
+## Install
 
-## Installation
+```sh
+code --install-extension kembec.code-time-limiter
+```
 
-Install Code Time Limiter from the Visual Studio Code Marketplace or by searching for "Code Time Limiter" in the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X` on macOS).
+Requires VS Code 1.86 or later.
 
-## Commands
+## Set a limit
 
-- `codeTimeLimiter.toggleActivate`: Toggle the activation of the time limiter. This can be done via the command palette or by clicking the status bar item.
+Click the watch in the status bar, or run **Code Time Limiter: Set a time limit**. Type a duration or an end time; the field shows when the limit ends before you press Enter. The next time you open it, it holds the last value you used.
 
-## Requirements
+| You type | The limit ends |
+|---|---|
+| `45m`, `45`, `90 min`, `30 minutos` | after that many minutes |
+| `1h`, `1h30`, `1.5h`, `2 horas`, `2 hours` | after that many hours |
+| `18:30` | at that time today, or tomorrow if it has already passed (24-hour clock) |
 
-Visual Studio Code 1.86.0 or higher.
+A limit runs from 1 minute to 24 hours.
 
-## Known Issues
+## While it runs
 
-Currently, lint errors applied to indicate the end of coding time are not automatically cleared when the time limit is deactivated. You will need to manually clear the lint errors or restart VSCode.
+- The status bar counts down to the second: `42:09`, or `1:05:00` above an hour. Hover it to see the end time.
+- Click it to get **5 more minutes**, **Change the limit** or **Stop the limit**.
+- In the last 5 minutes the item switches to the theme's warning color and the status bar says «5 minutes left».
+- At zero the item reads **Time's up** and one notification appears with **5 more minutes**. Dismiss it and nothing else happens: no diagnostics are added, and every editor stays open and editable.
+- Reloading the window keeps a running limit. A limit that expired while VS Code was not running does not come back.
 
-## Contributing
+## Commands and settings
 
-Contributions are welcome! Please feel free to submit pull requests or open issues to improve the extension.
+| Command | Title in the Command Palette |
+|---|---|
+| `codeTimeLimiter.setLimit` | Code Time Limiter: Set a time limit |
+| `codeTimeLimiter.addFive` | Code Time Limiter: 5 more minutes (with no limit running, starts one of 5 minutes) |
+| `codeTimeLimiter.stop` | Code Time Limiter: Stop the limit |
+| `codeTimeLimiter.toggleActivate` | Code Time Limiter: Set or manage the time limit (what the status bar click runs) |
+
+| Setting | Default | Effect |
+|---|---|---|
+| `codeTimeLimiter.enableAtStartup` | `false` | Asks for a limit when VS Code starts, unless one is already running |
+
+## Languages
+
+Commands, messages and the setting description are in English and Spanish and follow the VS Code display language. The input accepts English and Spanish units in either language.
+
+## Development
+
+```sh
+npm ci
+npm run test:unit   # input parsing, countdown and translations, with node --test
+npm test            # lint, then integration tests in a VS Code that @vscode/test-electron downloads
+```
+
+On Linux without a display, run `npm test` under `xvfb-run -a`.
 
 ## License
 
-This project is licensed under the [AGPL-3.0](https://opensource.org/licenses/AGPL-3.0). Its use, modification, and distribution are allowed under the terms of this license.
+This project is licensed under the [AGPL-3.0](https://opensource.org/licenses/AGPL-3.0). Its use, modification, and distribution are allowed under the terms of this license. The full text is in [LICENSE](LICENSE).
