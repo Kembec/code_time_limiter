@@ -1,0 +1,10 @@
+{
+	"displayName": "Code Time Limiter",
+	"description": "A countdown in the status bar that tells you when to stop coding. Set it in one step: 45m, 1h30 or 18:30.",
+	"category": "Code Time Limiter",
+	"command.setLimit": "Set a time limit",
+	"command.addFive": "5 more minutes",
+	"command.stop": "Stop the limit",
+	"command.toggle": "Set or manage the time limit",
+	"config.enableAtStartup": "Ask for a time limit when VS Code starts."
+}
