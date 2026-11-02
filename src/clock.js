@@ -29,7 +29,7 @@ function atClock(match, now) {
 }
 
 function afterDuration(ms, now) {
-	if (ms <= 0) {
+	if (ms < MINUTE) {
 		return { ok: false, reason: "tooShort" };
 	}
 	if (ms > MAX_LIMIT) {
