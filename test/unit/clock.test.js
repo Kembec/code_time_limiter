@@ -87,3 +87,14 @@ test("five more minutes counts from now once time is up", () => {
 	assert.equal(clock.extend(NOW - 60 * MIN, NOW), NOW + 5 * MIN);
 	assert.equal(clock.extend(NOW + 2 * MIN, NOW), NOW + 7 * MIN);
 });
+
+test("the minimum limit is one minute, as the README promises", () => {
+	const now = new Date("2026-11-01T01:00:00Z").getTime();
+	const short = clock.parseLimit("0.01h", now);
+	assert.equal(short.ok, false);
+	assert.equal(short.reason, "tooShort");
+	assert.equal(clock.parseLimit("0m", now).reason, "tooShort");
+	assert.equal(clock.parseLimit("1m", now).ok, true);
+	assert.equal(clock.parseLimit("24h", now).ok, true);
+	assert.equal(clock.parseLimit("25h", now).reason, "tooLong");
+});
